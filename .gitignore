@@ -1,0 +1,175 @@
+
+# ─────────────────────────────────────────────────────────────
+# APM (Agent Package Manager)
+# ─────────────────────────────────────────────────────────────
+apm_modules/                    # Cached packages (like node_modules/)
+.apm/                           # Local APM metadata
+apm-local-cache/
+
+# ─────────────────────────────────────────────────────────────
+# OpenCode
+# ─────────────────────────────────────────────────────────────
+.opencode/history.log           # Session history (personal, don't commit)
+.opencode/tmp/                  # Temporary OpenCode files
+.opencode/.env.local            # Local environment overrides (secrets!)
+
+# ─────────────────────────────────────────────────────────────
+# Local Kubernetes/Terraform (CRITICAL!)
+# ─────────────────────────────────────────────────────────────
+.terraform/                     # Terraform working directory
+*.tfstate                       # Terraform state (NEVER commit! Contains secrets!)
+*.tfstate.*                     # Terraform state backups
+.terraform.lock.hcl             # Lock file (COMMIT THIS for reproducibility)
+tfplan.out                       # Terraform plan output
+tfplan.json                      # Terraform plan JSON
+
+# ─────────────────────────────────────────────────────────────
+# Kubernetes & Cloud Credentials (CRITICAL!)
+# ─────────────────────────────────────────────────────────────
+kubeconfig                      # Local kubeconfig copy
+kubeconfig.yaml
+.kube/                          # Local kubectl config
+credentials.json                # Cloud credentials
+service-account-key.json        # GCP service account
+~/.aws/                         # AWS credentials
+
+# ─────────────────────────────────────────────────────────────
+# Local environment files (CRITICAL!)
+# ─────────────────────────────────────────────────────────────
+.env                            # Local environment variables (NEVER commit!)
+.env.local
+.env.*.local
+!.env.example                   # Example env file (safe to commit)
+
+# ─────────────────────────────────────────────────────────────
+# IDEs and Editors
+# ─────────────────────────────────────────────────────────────
+.vscode/                        # VS Code workspace settings
+.idea/                          # JetBrains IDEs
+*.swp                           # Vim swap files
+*.swo
+*~
+.DS_Store                       # macOS
+Thumbs.db                       # Windows
+
+# ─────────────────────────────────────────────────────────────
+# Git
+# ─────────────────────────────────────────────────────────────
+.git/
+.gitmodules
+
+# ─────────────────────────────────────────────────────────────
+# Logs and temporary files
+# ─────────────────────────────────────────────────────────────
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# ─────────────────────────────────────────────────────────────
+# Build and test artifacts
+# ─────────────────────────────────────────────────────────────
+build/
+dist/
+*.o
+*.so
+*.dylib
+coverage/
+.coverage
+
+# ─────────────────────────────────────────────────────────────
+# Helm artifacts
+# ─────────────────────────────────────────────────────────────
+Chart.lock                      # Helm lock file (commit for reproducibility)
+charts/*/Chart.lock
+charts/*/charts/
+
+# ─────────────────────────────────────────────────────────────
+# Docker
+# ─────────────────────────────────────────────────────────────
+.dockerignore
+*.tar.gz                        # Docker image tarballs
+
+# ─────────────────────────────────────────────────────────────
+# Kubernetes local testing
+# ─────────────────────────────────────────────────────────────
+kind-config.yaml                # Local Kind cluster config
+kind-logs/
+
+# ─────────────────────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# ─────────────────────────────────────────────────────────────
+# Go
+# ─────────────────────────────────────────────────────────────
+*.out
+go.sum                          # Optional: commit for reproducibility
+
+# ─────────────────────────────────────────────────────────────
+# Node.js (if applicable)
+# ─────────────────────────────────────────────────────────────
+node_modules/
+package-lock.json
+yarn.lock
+
+# ─────────────────────────────────────────────────────────────
+# Ruby (if applicable)
+# ─────────────────────────────────────────────────────────────
+Gemfile.lock
+
+# ─────────────────────────────────────────────────────────────
+# Terraform provider cache
+# ─────────────────────────────────────────────────────────────
+.terraformrc
+terraform.rc
+
+# ─────────────────────────────────────────────────────────────
+# OS-specific
+# ─────────────────────────────────────────────────────────────
+*.exe
+*.dll
+
+# ─────────────────────────────────────────────────────────────
+# Large binary files
+# ─────────────────────────────────────────────────────────────
+*.tar
+*.zip
+*.rar
+*.7z
+*.iso
+
+# ─────────────────────────────────────────────────────────────
+# Cloud provider CLI caches
+# ─────────────────────────────────────────────────────────────
+~/.azure/
+~/.gcloud/
+~/.config/gcloud/
+
+# ─────────────────────────────────────────────────────────────
+# Local cluster backups
+# ─────────────────────────────────────────────────────────────
+backups/
+snapshots/
+*.snapshot
+
+# ─────────────────────────────────────────────────────────────
+# CI/CD artifacts
+# ─────────────────────────────────────────────────────────────
+.github/workflows/*.log
+artifact-*
+
+# ─────────────────────────────────────────────────────────────
+# Secrets management
+# ─────────────────────────────────────────────────────────────
+secrets/
+*.enc
+sealed-secrets/
+

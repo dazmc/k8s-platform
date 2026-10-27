@@ -1,0 +1,58 @@
+name: k8s-platform-opencode
+version: 1.0.0
+description: |
+  Kubernetes platform infrastructure with OpenCode.
+  
+  Multi-cloud cluster management (Azure AKS, AWS EKS, Google GKE),
+  GitOps (Flux/ArgoCD), observability, incident response, and IaC.
+  
+  Optimized for local-first development with OpenCode CLI.
+author: Platform Engineering Team
+license: MIT
+targets:
+- claude
+- copilot
+- opencode
+dependencies:
+  apm:
+    # ─────────────────────────────────────────────────────────────
+    # FOUNDATION: Universal skills every project needs
+    # ─────────────────────────────────────────────────────────────
+    - thinkjones/awesome-apm-stacks/user-core
+    
+    # ─────────────────────────────────────────────────────────────
+    # INFRASTRUCTURE STACKS: Cloud & DevOps core
+    # ─────────────────────────────────────────────────────────────
+    
+    # Cloud architecture patterns, Azure/AWS IaC, serverless, cost optimization
+    - thinkjones/awesome-apm-stacks/architect-cloud
+    
+    # DevOps best practices: Docker, CI/CD, incident triage, Terraform,
+    # Kubernetes deployment best practices, GitHub Actions
+    - thinkjones/awesome-apm-stacks/architect-devops
+    
+    # ─────────────────────────────────────────────────────────────
+    # QUALITY & TESTING: Code review, security, testing
+    # ─────────────────────────────────────────────────────────────
+    
+    # TDD enforcement, code review, PR workflows
+    - thinkjones/awesome-apm-stacks/code-core
+    
+    # Security scanning, OWASP, secure coding practices
+    - thinkjones/awesome-apm-stacks/security-core
+    
+    # Integration & E2E testing, Playwright for smoke tests
+    - thinkjones/awesome-apm-stacks/test-core
+    
+    # ─────────────────────────────────────────────────────────────
+    # PLANNING & DOCUMENTATION: Requirements, runbooks, comms
+    # ─────────────────────────────────────────────────────────────
+    
+    # PRD, requirements, epic breakdown, QA workflows
+    - thinkjones/awesome-apm-stacks/plan-core
+    
+    # docx/pdf/pptx generation, runbooks, incident comms
+    - thinkjones/awesome-apm-stacks/plan-docs
+  mcp: []
+includes: auto
+scripts: {}
