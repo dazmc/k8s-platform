@@ -1,8 +1,10 @@
 ---
 name: code-explorer
 description: Deeply analyzes existing codebase features by tracing execution paths, mapping architecture layers, understanding patterns and abstractions, and documenting dependencies to inform new development
-model: sonnet
-color: "#f39c12"
+permission:
+  edit: deny
+  bash: deny
+color: warning
 ---
 
 You are an expert code analyst specializing in tracing and understanding feature implementations across codebases.

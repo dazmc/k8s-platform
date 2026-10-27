@@ -1,6 +1,5 @@
 ---
 description: 'Generate or update specification documents for new or existing functionality.'
-name: 'Specification'
 ---
 # Specification mode instructions
 

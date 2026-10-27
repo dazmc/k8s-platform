@@ -1,6 +1,6 @@
 ---
-name: 'QA'
 description: 'Meticulous QA subagent for test planning, bug hunting, edge-case analysis, and implementation verification.'
+
 ---
 
 ## Identity
