@@ -3,7 +3,7 @@
 ## Before Writing Terraform
 
 1. Design on paper: draw networking, IAM, and state flow
-2. Ask `/design-cluster` or `/design-networking` for initial scaffolding
+2. Ask for initial scaffolding (e.g. use the `azure-kubernetes` skill for AKS)
 3. Review cloud best practices for your target (AKS, EKS, GKE)
 4. Estimate costs with `terraform plan`
 

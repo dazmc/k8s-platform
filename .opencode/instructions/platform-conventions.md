@@ -11,22 +11,31 @@
 
 ## OpenCode Commands You Can Use
 
-### Skill Commands
-- `/kubernetes-troubleshooting` — Pod debugging, node diagnostics, network troubleshooting
-- `/terraform-validator` — Plan validation, cost estimation, security checks
-- `/helm-chart-reviewer` — Chart linting, dependency checks, values validation
-- `/incident-generator` — Create incident ticket, timeline, RCA template
-- `/runbook-writer` — Generate `.md` or `.pdf` runbooks for common scenarios
-
-### Agent Commands
-- `/code-reviewer` — Review your Terraform/Helm PR for best practices
-- `/security-auditor` — RBAC, pod security, network policies, compliance
-- `/devops-oncall` — Triage cluster issues, pull logs, suggest fixes
-
-### Prompt Shortcuts
+### Implemented commands (`.opencode/commands/`)
+- `/code-review` — Review unstaged changes against project standards
 - `/review-pr {pr_number}` — Review a GitHub PR before merge
+- `/commit`, `/commit-push-pr` — Commit / commit-and-PR workflows
+- `/feature-dev` — Feature development workflow
+- `/ralph-loop`, `/help` — Session utilities
+
+### Implemented agents (`.opencode/agents/`)
+- `code-reviewer` — Review your code/PR for best practices
+- `devils-advocate` — Stress-test plans and designs
+- `qa-subagent`, `prd`, `silent-failure-hunter`, …
+
+### Implemented skills (`.agents/skills/`)
+- `azure-kubernetes`, `gke-basics`, `azure-diagnostics`, `azure-cost` — Cloud/K8s workflows
+- `diagnosing-bugs`, `systematic-debugging` — Debugging workflows
+- `tdd`, `code-review`, `brainstorming` — Engineering workflows
+
+### Planned shortcuts (NOT yet implemented)
+The following are workflow targets for this platform — do not try to invoke them as commands. To make one real, add a markdown file to `.opencode/commands/`:
 - `/design-cluster {env}` — Design a new cluster for dev/staging/prod
-- `/analyze-incident {log_file}` — Root cause analysis from incident logs
+- `/incident-generator SEV{n}` — Create incident ticket, timeline, RCA template
+- `/runbook-writer` — Generate `.md` or `.pdf` runbooks for common scenarios
+- `/devops-oncall` — Triage cluster issues, pull logs, suggest fixes
+- `/security-auditor` — RBAC, pod security, network policies, compliance
+- `/terraform-validator`, `/helm-chart-reviewer`, `/analyze-incident`
 
 ## Workflow: Kubernetes Cluster Design
 
@@ -39,7 +48,7 @@
    ```
    I need a production AKS cluster in eastus for 1000 pods, 
    high availability, multi-AZ, with cost optimization.
-   Use /design-cluster prod to generate starter Terraform.
+   Use the azure-kubernetes skill to generate starter Terraform.
    ```
 
 3. **Agent generates:**
@@ -74,9 +83,11 @@
    opencode
    ```
 
-2. **Start incident investigation:**
+2. **Document the incident:**
    ```
-   /incident-generator SEV2 "API pods CrashLoopBackOff"
+   Create an incident ticket in .incidents/INCIDENT_YYYY_MM_DD_NNN.md
+   (SEV2, "API pods CrashLoopBackOff") with a timeline template
+   and RCA skeleton.
    ```
 
 3. **OpenCode creates:**
@@ -104,7 +115,8 @@
 
 7. **Generate post-mortem:**
    ```
-   /runbook-writer "Why did we hit OOMKilled?" --format pdf
+   Write a post-mortem in docs/runbooks/ covering "Why did we hit
+   OOMKilled?" — cause, timeline, prevention steps. Markdown is fine.
    ```
 
 ## Workflow: Terraform PR Review
@@ -117,7 +129,9 @@
 
 2. **Run security audit:**
    ```
-   /security-auditor
+   Audit this PR for security issues: IAM policies (least privilege),
+   security groups (no 0.0.0.0/0), resource tagging, remote state
+   backend (encryption, versioning), network isolation.
    ```
 
 3. **OpenCode checks:**
@@ -180,18 +194,16 @@
 4. **If hooks fail:** Fix locally, re-commit
 5. **Push:** `git push origin feature/description`
 6. **PR:** GitHub Actions run full test suite
-7. **Merge:** Only after `code-reviewer` and `security-auditor` approve
+7. **Merge:** Only after code review and security audit approve
 
 ## Incident Response Tiers
 
 - **SEV1 (Critical):** Production down, immediate action
   - Pager oncall immediately
-  - `/incident-generator SEV1` auto-escalates
-  - `/devops-oncall` triages in real-time
-
+  - Auto-escalate; triage cluster in real time
 - **SEV2 (High):** Production degraded
   - Slack #incidents channel notified
-  - `/incident-generator SEV2` creates ticket
+  - Create incident ticket + timeline
   - RCA required within 24h
 
 - **SEV3 (Medium):** Non-production or minor impact
@@ -201,7 +213,7 @@
 - **SEV4 (Low):** Observations, no action required
   - May auto-resolve
 
-## Debugging Checklist (when running `/devops-oncall`)
+## Debugging Checklist (when triaging cluster issues)
 
 - [ ] Check pod status: `kubectl get pods -n {ns} -o wide`
 - [ ] Read pod logs: `kubectl logs {pod} -n {ns} --tail=50`
