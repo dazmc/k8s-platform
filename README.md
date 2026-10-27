@@ -133,6 +133,75 @@ This repo currently declares `mcp: []` (skills-only) to stay lean. To demo MCP: 
 
 ---
 
+## Marketplaces
+
+A **marketplace** is a git-hosted index of APM packages: one repo publishes a curated catalog, many repos install from it by short name (`pkg@marketplace`) instead of raw git URLs. It's the npm-registry layer on top of APM's git-package model.
+
+Note this repo currently consumes `awesome-apm-stacks` by **direct package ref** (`thinkjones/awesome-apm-stacks/user-core` in `apm.yml`) — that works without registering anything. Marketplaces add search, browsing, and short names on top.
+
+### Using marketplaces (consumer)
+
+```bash
+# Register once per machine (GitHub shorthand; any git host works)
+apm marketplace add github/awesome-copilot
+apm marketplace add Avyayalaya/awesome-apm
+
+# Browse and search what's in them
+apm marketplace list
+apm marketplace browse awesome-copilot
+apm search "azure@awesome-copilot" --limit 5
+
+# Install by short name
+apm install azure-cloud-development@awesome-copilot
+apm install pm-skills@awesome-apm
+
+# Pin: literal tag with #, or a semver range in apm.yml
+apm install my-pkg@my-marketplace#v1.2.0
+```
+
+In `apm.yml`, marketplace deps declare a version range resolved against the publisher's tag pattern:
+
+```yaml
+dependencies:
+  apm:
+    - name: example-package
+      marketplace: my-marketplace
+      version: "^1.0.0"
+```
+
+Registered sources can be git repos (HTTPS/SSH, pinned with `#ref` or `--ref`), a hosted `marketplace.json` URL, or a local path — useful for private/internal catalogs and air-gapped setups. `apm marketplace update` refreshes the index; `apm install` records the resolved version + content hash in `apm.lock.yaml` like any other dependency.
+
+### Well-known marketplaces
+
+| Marketplace | Register with | What's in it |
+|---|---|---|
+| `github/awesome-copilot` | `apm marketplace add github/awesome-copilot` | GitHub's official catalog — skills, agents, prompts, MCP for Copilot; the canonical aggregator cited by the APM README |
+| `Avyayalaya/awesome-apm` | `apm marketplace add Avyayalaya/awesome-apm` | APM-native index: `pm-skills`, `microsoft/azure-skills` (27 Azure skills), `agent-council` quality gate |
+
+Also worth knowing (installed as direct refs, not marketplaces):
+
+- `thinkjones/awesome-apm-stacks` — 21 composable stacks (this repo's source: `user-core`, `security-core`, …), installed as `thinkjones/awesome-apm-stacks/<stack>`
+- `anthropics/skills`, `obra/superpowers`, `microsoft/apm-sample-package` — popular single packages
+
+### Creating your own marketplace
+
+Authoring lives in the `marketplace:` block of `apm.yml` in a dedicated repo:
+
+```bash
+apm marketplace init --name acme-marketplace --owner acme-org
+$EDITOR apm.yml                      # describe packages: source, versions, tag pattern
+apm marketplace check                # validate every ref resolves
+apm pack                             # build .claude-plugin/marketplace.json (+ optional outputs)
+git add apm.yml .claude-plugin/marketplace.json
+git commit -m "Release v1.0.0" && git tag v1.0.0 && git push --tags
+```
+
+Your consumers then run `apm marketplace add acme-org/acme-marketplace` and install `pkg@acme-marketplace`. The generated `marketplace.json` is byte-compatible with Anthropic's schema, so the same repo also works as a Claude Code / Copilot CLI plugin marketplace — add `codex`/`copilot` to `marketplace.outputs` for those artifacts. Useful companion commands: `apm marketplace package add` to register entries, `apm marketplace validate` to lint the catalog.
+
+See the [marketplace authoring guide](https://microsoft.github.io/apm/producer/publish-to-a-marketplace/) for repo shapes (single-plugin vs aggregator vs monorepo) and versioning strategies.
+
+---
+
 ## Day-to-day OpenCode usage
 
 Just run `opencode` at the repo root. You get:
