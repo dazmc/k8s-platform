@@ -143,17 +143,25 @@ Just run `opencode` at the repo root. You get:
 - **Agents** (`.opencode/agents/`): code-reviewer, devils-advocate, qa-subagent, prd, and more
 - **Loaded conventions**: K8s/Docker/Terraform/security rules are active automatically, scoped to the files being edited
 
-Typical sessions:
+Platform command examples:
+
+| Command | Example | What you get |
+|---|---|---|
+| `/design-cluster` | `/design-cluster prod aks 2000-pods multi-AZ westus2` | Design doc in `docs/clusters/aks-prod.md`, then Terraform scaffold under `terraform/azure/prod/` after approval |
+| `/incident-generator` | `/incident-generator SEV2 "API pods CrashLoopBackOff"` | `.incidents/INCIDENT_2026_05_21_001.md` — timeline, hypotheses, RCA skeleton |
+| `/runbook-writer` | `/runbook-writer "node disk pressure"` | `docs/runbooks/node-disk-pressure.md` — symptom → diagnosis → mitigation → prevention |
+| `/devops-oncall` | `/devops-oncall production API CrashLoopBackOff` | Read-only triage: node/pod status, events, logs → root-cause hypothesis + GitOps fix diff (never applies to prod) |
+| `/security-auditor` | `/security-auditor terraform/azure/prod` | Findings by severity — RBAC, PSS-restricted, network policies, secrets, images — each with a file:line fix |
+| `/terraform-validator` | `/terraform-validator terraform/azure/prod` | `fmt` → `validate` → `tflint` → `tfsec` plus convention review (hardcoded values, missing tags, secrets) |
+| `/helm-chart-reviewer` | `/helm-chart-reviewer charts/api` | `helm lint` + template render + values/security-context/probe review |
+| `/analyze-incident` | `/analyze-incident logs/api-pod.log` | Root cause with proof lines, condensed timeline, fix + prevention suggestions |
+
+Also useful day-to-day:
 
 ```
-/design-cluster prod aks        # AKS prod design + Terraform scaffold
-/incident-generator SEV2 "API pods CrashLoopBackOff"
-/devops-oncall                   # triage the current cluster issue
-/security-auditor                # audit manifests, RBAC, network policies
-/terraform-validator             # fmt + validate + tflint + tfsec
-/code-review                     # review unstaged changes against project standards
-> Review this Terraform PR for security issues
-> Why did we hit OOMKilled? Draft a runbook.
+/code-review        # review unstaged changes against project standards
+/review-pr 42       # review a GitHub PR before merge
+/commit             # commit with the repo's conventional-commit style
 ```
 
 ---
