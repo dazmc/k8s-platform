@@ -1,0 +1,62 @@
+{
+  "Stop": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/hooks/ralph-loop/hooks/stop-hook.sh\""
+        }
+      ],
+      "_apm_source": "anthropics/claude-plugins-official/plugins/ralph-loop"
+    }
+  ],
+  "PreToolUse": [
+    {
+      "matcher": "Write|Edit|MultiEdit|TodoWrite",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "npx tdd-guard@latest"
+        }
+      ],
+      "_apm_source": "nizos/tdd-guard/plugin"
+    }
+  ],
+  "UserPromptSubmit": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "npx tdd-guard@latest"
+        }
+      ],
+      "_apm_source": "nizos/tdd-guard/plugin"
+    }
+  ],
+  "SessionStart": [
+    {
+      "matcher": "startup|resume|clear",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "npx tdd-guard@latest"
+        }
+      ],
+      "_apm_source": "nizos/tdd-guard/plugin"
+    },
+    {
+      "matcher": "startup|clear|compact",
+      "hooks": [
+        {
+          "type": "command",
+          "shell": "bash",
+          "async": false,
+          "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/superpowers/hooks/run-hook.cmd\" session-start"
+        }
+      ],
+      "_apm_source": "obra/superpowers"
+    }
+  ]
+}

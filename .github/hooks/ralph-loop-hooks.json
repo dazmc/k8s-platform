@@ -1,0 +1,16 @@
+{
+  "description": "Ralph Loop plugin stop hook for self-referential loops",
+  "hooks": {
+    "agentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \".github/hooks/scripts/ralph-loop/hooks/stop-hook.sh\""
+          }
+        ]
+      }
+    ]
+  },
+  "version": 1
+}

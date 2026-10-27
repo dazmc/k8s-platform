@@ -1,0 +1,19 @@
+{
+  "extraKnownMarketplaces": {
+    "apm": {
+      "source": {
+        "source": "directory",
+        "path": "apm_modules"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "azure-cloud-development@apm": true,
+    "context-engineering@apm": true,
+    "devops-oncall@apm": true,
+    "doublecheck@apm": true,
+    "project-planning@apm": true,
+    "security-best-practices@apm": true,
+    "testing-automation@apm": true
+  }
+}
