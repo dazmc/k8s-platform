@@ -138,6 +138,7 @@ This repo currently declares `mcp: []` (skills-only) to stay lean. To demo MCP: 
 Just run `opencode` at the repo root. You get:
 
 - **Commands** (`.opencode/commands/`): `/code-review`, `/commit`, `/commit-push-pr`, `/review-pr`, `/feature-dev`, `/ralph-loop`, `/help`
+- **Platform commands**: `/design-cluster`, `/incident-generator`, `/runbook-writer`, `/devops-oncall`, `/security-auditor`, `/terraform-validator`, `/helm-chart-reviewer`, `/analyze-incident` (K8s-platform workflows — see `.opencode/commands/`)
 - **Skills** (~90, in `.agents/skills/`): `azure-kubernetes`, `gke-basics`, `azure-cost`, `tdd`, `diagnosing-bugs`, `brainstorming`, `code-review`, …
 - **Agents** (`.opencode/agents/`): code-reviewer, devils-advocate, qa-subagent, prd, and more
 - **Loaded conventions**: K8s/Docker/Terraform/security rules are active automatically, scoped to the files being edited
@@ -145,14 +146,15 @@ Just run `opencode` at the repo root. You get:
 Typical sessions:
 
 ```
+/design-cluster prod aks        # AKS prod design + Terraform scaffold
+/incident-generator SEV2 "API pods CrashLoopBackOff"
+/devops-oncall                   # triage the current cluster issue
+/security-auditor                # audit manifests, RBAC, network policies
+/terraform-validator             # fmt + validate + tflint + tfsec
 /code-review                     # review unstaged changes against project standards
-/review-pr 42                    # review a GitHub PR before merge
-> Design a production AKS cluster for 2000 pods in westus2 with multi-AZ
-> The API pods are in CrashLoopBackOff — pull logs and diagnose
+> Review this Terraform PR for security issues
 > Why did we hit OOMKilled? Draft a runbook.
 ```
-
-> **Note:** `.opencode/instructions/platform-conventions.md` lists additional shortcuts (`/design-cluster`, `/incident-generator`, `/devops-oncall`, …) that are **aspirational** — described there as workflow targets, not implemented commands. To make one real, add a markdown file to `.opencode/commands/` (see any existing command for the format).
 
 ---
 

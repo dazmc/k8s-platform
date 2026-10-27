@@ -28,14 +28,15 @@
 - `diagnosing-bugs`, `systematic-debugging` — Debugging workflows
 - `tdd`, `code-review`, `brainstorming` — Engineering workflows
 
-### Planned shortcuts (NOT yet implemented)
-The following are workflow targets for this platform — do not try to invoke them as commands. To make one real, add a markdown file to `.opencode/commands/`:
-- `/design-cluster {env}` — Design a new cluster for dev/staging/prod
-- `/incident-generator SEV{n}` — Create incident ticket, timeline, RCA template
-- `/runbook-writer` — Generate `.md` or `.pdf` runbooks for common scenarios
-- `/devops-oncall` — Triage cluster issues, pull logs, suggest fixes
-- `/security-auditor` — RBAC, pod security, network policies, compliance
-- `/terraform-validator`, `/helm-chart-reviewer`, `/analyze-incident`
+### Platform commands (`.opencode/commands/`)
+- `/design-cluster {env}` — Design a new cluster for dev/staging/prod and scaffold Terraform
+- `/incident-generator SEV{n} "issue"` — Create incident ticket, timeline, RCA template
+- `/runbook-writer "topic"` — Generate runbooks in `docs/runbooks/`
+- `/devops-oncall [symptom]` — Triage cluster issues, pull logs, suggest fixes (read-only)
+- `/security-auditor [path]` — RBAC, pod security, network policies, compliance audit
+- `/terraform-validator [dir]` — fmt/validate/tflint/tfsec pipeline + convention review
+- `/helm-chart-reviewer [chart]` — Chart linting, dependency checks, values validation
+- `/analyze-incident {logs}` — Root cause analysis from a log file or pasted logs
 
 ## Workflow: Kubernetes Cluster Design
 
