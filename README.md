@@ -2,10 +2,10 @@
 
 Agent-powered workspace for building a multi-cloud Kubernetes platform (AKS / EKS / GKE) — and a working **demo of [APM (Agent Package Manager)](https://microsoft.github.io/apm/) + [OpenCode](https://opencode.ai)**.
 
-This repo intentionally contains **no infrastructure code yet**. It is a fully-outfitted AI coding environment: engineering standards, security rules, Terraform conventions, incident-response playbooks, and 90+ skills — all declared in one `apm.yml` and compiled into agent-native files. Use it two ways:
+This repo is a demo of using APM to assemble an AI-agent harness for building and operating a multi-cloud Kubernetes platform. It contains engineering standards, security rules, Terraform conventions, incident-response playbooks, 90+ skills, and an **unapplied AKS Terraform scaffold** — all alongside the APM manifest and generated agent configuration.
 
 - **Demo** — a self-contained example of how APM manages AI-agent configuration across Claude Code, GitHub Copilot, and OpenCode from a single manifest
-- **Production** — the actual cockpit for building and operating the K8s platform described in the conventions (Terraform + AVM, GitOps, Prometheus/Grafana, incident response)
+- **Harness example** — platform-specific conventions and an AKS scaffold show the kind of engineering work the harness is intended to support; the cluster is not deployed
 
 ---
 
@@ -56,6 +56,10 @@ opencode
 ```
 
 You now have an OpenCode session loaded with Terraform conventions, Kubernetes/Docker best practices, OWASP security rules, incident-response workflows, and every skill listed in `apm.yml` — no manual setup per machine.
+
+## See the APM demo end to end
+
+Want to understand what APM contributes, rather than just install this repo? Follow the [APM demo walkthrough](docs/apm-demo-walkthrough.md) to trace a dependency from the manifest through the lockfile and compiled runtime files, then compare the same read-only Kubernetes review task in two agent runtimes. It distinguishes repeatable agent setup from model output quality and uses the AKS Terraform only as an unapplied demo scaffold.
 
 ---
 
