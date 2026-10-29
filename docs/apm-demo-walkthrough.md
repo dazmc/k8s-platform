@@ -47,12 +47,14 @@ The exact generated files depend on the targets and packages. In this repository
 
 ## 3. Separate shared packages from this repo's platform guidance
 
-Point out these two sources of behavior:
+Use this task to show how the layers combine, rather than describing APM in isolation:
 
-- **Shared APM packages:** the stacks declared under `dependencies.apm` bring reusable skills and practices, such as Kubernetes, Terraform, security, testing, and review workflows.
-- **Repository-specific OpenCode instructions:** `opencode.json` loads the hand-written `.opencode/instructions/platform-conventions.md`, `incident-response.md`, and `terraform-guidelines.md`. These define this demo's platform context and local conventions.
+1. **APM manifest and lockfile:** `apm.yml` declares the reusable stacks and runtime targets; `apm.lock.yaml` records the resolved package versions and content.
+2. **Compiled agent setup:** `apm compile` generates configuration and distributes selected guidance to supported runtimes. These generated files are outputs, not the source to edit.
+3. **Repository context:** the repo supplies its own platform files, including the AKS scaffold and its design notes. OpenCode additionally loads the three hand-written instruction files listed in `opencode.json`; they give it local conventions but are not automatically loaded by Claude Code or Copilot.
+4. **Task and response:** you provide a task prompt, such as the review below. The runtime and model use the files and guidance available to them to produce a response. APM prepares the agent setup; it does not perform the review or operate the cluster.
 
-This separation is part of the demo: APM can assemble and compile reusable agent assets while a repository supplies its own context. The exact experience still depends on each runtime and how it loads its generated files.
+The relationship is: **APM-selected guidance + repository-specific context + your task prompt → runtime/model response.** The same prompt can produce different answers across runtimes and models, and some repo guidance is OpenCode-specific. The demo shows how APM distributes agent setup and how that setup can be used with a real repo task; it does not establish that APM improves answer quality or makes outputs identical.
 
 ## 4. Run the same read-only Kubernetes task in two runtimes
 
@@ -61,6 +63,8 @@ Choose any two installed runtimes supported by this repo. In each, use the same 
 > Review `terraform/azure/prod/` and `docs/clusters/aks-prod-eastus.md` as an unapplied AKS demo scaffold. Give the three most important reliability, security, or operational gaps, with file and line references. Separate existing design decisions from documented Day-1 follow-ups. Do not run Terraform, access a cloud account or cluster, or propose applying changes.
 
 The target is a **read-only review of repository files**. Do not run `terraform plan` or `terraform apply`; do not connect to Azure or a Kubernetes cluster. The scaffold's design notes describe it as approved and scaffolded, not applied.
+
+For the demo, a useful response should identify three concrete gaps, cite the source file and line for each, and distinguish implemented design choices from future Day-1 work. The response is the runtime/model's work product; the APM contribution is the reusable and project-specific setup that was available to inform it.
 
 Compare observations rather than expecting identical wording:
 
