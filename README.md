@@ -2,10 +2,10 @@
 
 Agent-powered workspace for building a multi-cloud Kubernetes platform (AKS / EKS / GKE) — and a working **demo of [APM (Agent Package Manager)](https://microsoft.github.io/apm/) + [OpenCode](https://opencode.ai)**.
 
-This repo intentionally contains **no infrastructure code yet**. It is a fully-outfitted AI coding environment: engineering standards, security rules, Terraform conventions, incident-response playbooks, and 90+ skills — all declared in one `apm.yml` and compiled into agent-native files. Use it two ways:
+This repo is a demo of using APM to assemble an AI-agent harness for building and operating a multi-cloud Kubernetes platform. It contains engineering standards, security rules, Terraform conventions, incident-response playbooks, 90+ skills, and an **unapplied AKS Terraform scaffold** — all alongside the APM manifest and generated agent configuration.
 
 - **Demo** — a self-contained example of how APM manages AI-agent configuration across Claude Code, GitHub Copilot, and OpenCode from a single manifest
-- **Production** — the actual cockpit for building and operating the K8s platform described in the conventions (Terraform + AVM, GitOps, Prometheus/Grafana, incident response)
+- **Harness example** — platform-specific conventions and an AKS scaffold show the kind of engineering work the harness is intended to support; the cluster is not deployed
 
 ---
 
@@ -21,6 +21,12 @@ apm compile    # generate AGENTS.md, CLAUDE.md, .github/, .claude/, .opencode/ w
 The install→compile split is the payoff: **one manifest, every agent runtime**. This repo targets Claude Code, GitHub Copilot, and OpenCode simultaneously.
 
 Skills and bundles come from curated libraries like [awesome-apm-stacks](https://github.com/thinkjones/awesome-apm-stacks), where each package is a small, readable `apm.yml` of battle-tested sources (1K+ star repos), organised by concern.
+
+### What APM does for a task in this repo
+
+Think of APM as preparing and distributing the agent's working context—not as the agent, cloud, or Kubernetes operator. `apm.yml` selects reusable packages and runtimes; `apm.lock.yaml` records the resolved versions; `apm compile` generates files the selected runtimes can load. This repo adds its own platform guidance and AKS scaffold. Then you give an agent a task, such as a read-only review of that scaffold, and the runtime/model uses the available context to produce an answer. The answer can vary; APM does not guarantee a better result or deploy infrastructure.
+
+The [APM demo walkthrough](docs/apm-demo-walkthrough.md) follows this flow and shows what comes from APM, what is specific to this repo, and what the runtime/model does.
 
 ---
 
@@ -56,6 +62,10 @@ opencode
 ```
 
 You now have an OpenCode session loaded with Terraform conventions, Kubernetes/Docker best practices, OWASP security rules, incident-response workflows, and every skill listed in `apm.yml` — no manual setup per machine.
+
+## See the APM demo end to end
+
+Want to understand what APM contributes, rather than just install this repo? Follow the [APM demo walkthrough](docs/apm-demo-walkthrough.md) to trace a dependency from the manifest through the lockfile and compiled runtime files, then compare the same read-only Kubernetes review task in two agent runtimes. It distinguishes repeatable agent setup from model output quality and uses the AKS Terraform only as an unapplied demo scaffold.
 
 ---
 
@@ -108,13 +118,17 @@ Note the path-scoping magic in the generated `AGENTS.md`: Terraform rules only l
 
 ### Hand-written instructions (the repo's own brain)
 
-`opencode.json` wires three hand-written files into OpenCode that APM doesn't own:
+`opencode.json` explicitly tells OpenCode to load three repository-owned instruction files when working in this project:
 
-- `.opencode/instructions/platform-conventions.md` — multi-cloud layout, Terraform/K8s conventions, GitOps rules
-- `.opencode/instructions/incident-response.md` — SEV1–4 workflows
-- `.opencode/instructions/terraform-guidelines.md` — validate/fmt/tfsec flow
+- [`.opencode/instructions/platform-conventions.md`](.opencode/instructions/platform-conventions.md) — the intended multi-cloud layout, Terraform and Kubernetes conventions, and GitOps practices
+- [`.opencode/instructions/incident-response.md`](.opencode/instructions/incident-response.md) — example SEV1–4 incident workflows
+- [`.opencode/instructions/terraform-guidelines.md`](.opencode/instructions/terraform-guidelines.md) — suggested Terraform formatting, validation, and security-check steps
 
-These are the "production use" layer: project-specific truth on top of APM's generic stacks. Keep new platform knowledge here, not in the compiled files.
+Think of APM's stacks as reusable engineering guidance that can be shared across repositories. These three files add context specific to this repository: for example, when asked to review Terraform here, OpenCode can use the repo's naming, tagging, and state conventions in addition to general Terraform guidance.
+
+These files are hand-written and are not dependencies that APM installs or outputs generated by `apm compile`. OpenCode loads them because they are listed in `opencode.json`; the other runtimes do not automatically get them. For guidance that should apply across runtimes, use the appropriate shared APM package or repository instruction source instead of assuming OpenCode's config is universal.
+
+Treat these documents as project guidance and examples, not proof that every workflow is production-ready. Check their instructions against the current repository, environment, and approval requirements before acting. Add or update platform-specific knowledge in these source files, not in compiled files such as `AGENTS.md` or `CLAUDE.md`, which APM can regenerate.
 
 ---
 

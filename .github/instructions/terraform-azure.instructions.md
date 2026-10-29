@@ -151,7 +151,7 @@ locals {
     Owner       = var.owner
     CreatedBy   = "terraform"
   }
-  
+
   resource_name_prefix = "${var.project_name}-${var.environment}"
   location_short       = substr(var.location, 0, 3)
 }
@@ -179,7 +179,7 @@ Use a consistent folder structure for Terraform configurations.
 
 Use tfvars to modify environmental differences. In general, aim to keep environments similar whilst cost optimising for non-production environments.
 
-Antipattern - branch per environment, repository per environment, folder per environment - or similar layouts that make it hard to test the root folder logic between environments.  
+Antipattern - branch per environment, repository per environment, folder per environment - or similar layouts that make it hard to test the root folder logic between environments.
 
 Be aware of tools such as Terragrunt which may influence this design.
 
